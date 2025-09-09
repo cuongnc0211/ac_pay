@@ -8,11 +8,12 @@ class AppsController < ApplicationController
 
   # GET /apps/1 or /apps/1.json
   def show
+    # @payments = @app.payments.order(created_at: :desc)
   end
 
   # GET /apps/new
   def new
-    @app = App.new
+    @app = Current.user.apps.new
   end
 
   # GET /apps/1/edit
@@ -21,7 +22,7 @@ class AppsController < ApplicationController
 
   # POST /apps or /apps.json
   def create
-    @app = App.new(app_params)
+    @app = Current.user.apps.new(app_params)
 
     respond_to do |format|
       if @app.save
@@ -60,7 +61,7 @@ class AppsController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_app
-      @app = App.find(params.expect(:id))
+      @app = Current.user.apps.includes(:api_keys).find(params.expect(:id))
     end
 
     # Only allow a list of trusted parameters through.

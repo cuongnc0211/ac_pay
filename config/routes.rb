@@ -1,5 +1,4 @@
 Rails.application.routes.draw do
-  resources :apps
   resource :session
   resources :passwords, param: :token
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
@@ -14,4 +13,8 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   root "apps#index"
+
+  resources :apps do
+    resources :api_keys, except: [ :update, :edit ]
+  end
 end
